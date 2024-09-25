@@ -17,7 +17,6 @@ flutter riverpod extension is an extension that offers flutter_riverpod related 
 
 - Imports are managed automatically (no more adding import statements)
 
-
 ## Note
 
 I A Big Thank You! 🎉
@@ -33,4 +32,3 @@ Iam someone who knows nothing about TypeScript and programming extensions for VS
 **Please create a Pull Request if you can help me improve it!**  
 **Please create a Pull Request if you can help me improve it!**  
 **Please create a Pull Request if you can help me improve it!**
-

@@ -2,6 +2,7 @@
   "name": "riverpod-widget-refactor",
   "displayName": "Riverpod Widget Refactor",
   "description": "Riverpod widget refactor",
+  "publisher": "QuangTrung",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.93.0"
@@ -12,9 +13,12 @@
   "activationEvents": [
     "onLanguage:dart"
   ],
-  "main": "./extension.ts",
+  "main": "./out/extension",
   "icon": "./riverpod_logo.png",
   "contributes": {},
+  "repository": {
+    "url": "https://github.com/Trung15010802/riverpod-widget-refactor"
+  },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
