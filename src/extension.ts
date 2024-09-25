@@ -7,6 +7,8 @@ import {
   convertStatelessToConsumerWidgetCommand,
 } from "./commands/convert_from_stateless";
 import {
+  convertStatefulToConsumer,
+  convertStatefulToConsumerCommand,
   convertStatefulToConsumerStateful,
   convertStatefulToConsumerStatefulCommand,
 } from "./commands/convert_from_stateful";
@@ -19,6 +21,10 @@ import {
 import {
   convertConsumerStatefulToConsumer,
   convertConsumerStatefulToConsumerCommand,
+  convertConsumerStatefulToStateful,
+  convertConsumerStatefulToStatefulCommand,
+  convertConsumerStatefulToStateless,
+  convertConsumerStatefulToStatelessCommand,
 } from "./commands/convert_from_consumer_stateful";
 
 export function activate(context: ExtensionContext) {
@@ -47,8 +53,20 @@ export function activate(context: ExtensionContext) {
     convertConsumerToConsumerStatefulWidget
   );
   commands.registerCommand(
+    convertConsumerStatefulToStatefulCommand,
+    convertConsumerStatefulToStateful
+  );
+  commands.registerCommand(
     convertConsumerStatefulToConsumerCommand,
     convertConsumerStatefulToConsumer
+  );
+  commands.registerCommand(
+    convertConsumerStatefulToStatelessCommand,
+    convertConsumerStatefulToStateless
+  );
+  commands.registerCommand(
+    convertStatefulToConsumerCommand,
+    convertStatefulToConsumer
   );
 }
 

@@ -12,7 +12,7 @@ import {
   convertStatelessToConsumerStatefulWidgetCommand,
   convertStatelessToConsumerWidgetCommand,
 } from "../commands/convert_from_stateless";
-import { convertStatefulToConsumerStatefulCommand } from "../commands/convert_from_stateful";
+import { convertStatefulToConsumerCommand, convertStatefulToConsumerStatefulCommand } from "../commands/convert_from_stateful";
 import {
   convertConsumerToConsumerStatefulWidgetCommand,
   convertConsumerToStatelessCommand,
@@ -20,6 +20,7 @@ import {
 import {
   convertConsumerStatefulToConsumerCommand,
   convertConsumerStatefulToStatefulCommand,
+  convertConsumerStatefulToStatelessCommand,
 } from "../commands/convert_from_consumer_stateful";
 
 const ACTION_TITLES = {
@@ -85,6 +86,13 @@ class RiverpodCodeActionProvider implements CodeActionProvider {
           range,
           actions
         );
+        registerCodeAction(
+          ACTION_TITLES.toConsumer,
+          convertStatefulToConsumerCommand,
+          document,
+          range,
+          actions
+        );
       }
 
       if (isConsumerWidget) {
@@ -115,6 +123,13 @@ class RiverpodCodeActionProvider implements CodeActionProvider {
         registerCodeAction(
           ACTION_TITLES.toConsumer,
           convertConsumerStatefulToConsumerCommand,
+          document,
+          range,
+          actions
+        );
+        registerCodeAction(
+          ACTION_TITLES.toStateless,
+          convertConsumerStatefulToStatelessCommand,
           document,
           range,
           actions
