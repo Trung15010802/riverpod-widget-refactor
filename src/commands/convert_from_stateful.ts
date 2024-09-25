@@ -8,7 +8,7 @@ import {
 } from "vscode";
 import { insertImportStatement } from "../functions/insert_import_statement";
 import { indexFrom } from "../functions/index_from";
-import { replaceLine } from "../functions/replace_lin";
+import { replaceLine } from "../functions/replace_line";
 
 export const convertStatefulToConsumerStatefulCommand =
   "extension.convertStatefulToConsumerStateful";
@@ -66,7 +66,7 @@ export function convertStatefulToConsumerStateful(
 
   // Prepare the replacement lines
   const consumerStatefulWidgetLineText = `class ${className} extends ConsumerStatefulWidget {`;
-  const consumerCreateStateLineText = `ConsumerState<${className}> createState() => _${className}State();`;
+  const consumerCreateStateLineText = `  ConsumerState<${className}> createState() => _${className}State();`;
   const consumerStateLineText = `class _${className}State extends ConsumerState<${className}> {`;
 
   const edit = new WorkspaceEdit();

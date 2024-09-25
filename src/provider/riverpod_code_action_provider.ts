@@ -17,7 +17,10 @@ import {
   convertConsumerToConsumerStatefulWidgetCommand,
   convertConsumerToStatelessCommand,
 } from "../commands/convert_from_consumer";
-import { convertConsumerStatefulToStatefulCommand } from "../commands/convert_from_consumer_stateful";
+import {
+  convertConsumerStatefulToConsumerCommand,
+  convertConsumerStatefulToStatefulCommand,
+} from "../commands/convert_from_consumer_stateful";
 
 const ACTION_TITLES = {
   toStateful: "Convert to StatefulWidget",
@@ -105,6 +108,13 @@ class RiverpodCodeActionProvider implements CodeActionProvider {
         registerCodeAction(
           ACTION_TITLES.toStateful,
           convertConsumerStatefulToStatefulCommand,
+          document,
+          range,
+          actions
+        );
+        registerCodeAction(
+          ACTION_TITLES.toConsumer,
+          convertConsumerStatefulToConsumerCommand,
           document,
           range,
           actions

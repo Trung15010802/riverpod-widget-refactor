@@ -6,7 +6,7 @@ import {
   workspace,
 } from "vscode";
 import { insertImportStatement } from "../functions/insert_import_statement";
-import { replaceLine } from "../functions/replace_lin";
+import { replaceLine } from "../functions/replace_line";
 import { indexFrom } from "../functions/index_from";
 export const convertStatelessToConsumerWidgetCommand =
   "extension.convertToConsumerWidget";

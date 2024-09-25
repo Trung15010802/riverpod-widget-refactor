@@ -1,4 +1,4 @@
-import { commands, ExtensionContext, languages, window } from "vscode";
+import { commands, ExtensionContext, languages } from "vscode";
 import RiverpodCodeActionProvider from "./provider/riverpod_code_action_provider";
 import {
   convertStatelessToConsumerStatefulWidget,
@@ -16,7 +16,10 @@ import {
   convertConsumerToStateless,
   convertConsumerToStatelessCommand,
 } from "./commands/convert_from_consumer";
-import { convertConsumerStatefulToStateful, convertConsumerStatefulToStatefulCommand } from "./commands/convert_from_consumer_stateful";
+import {
+  convertConsumerStatefulToConsumer,
+  convertConsumerStatefulToConsumerCommand,
+} from "./commands/convert_from_consumer_stateful";
 
 export function activate(context: ExtensionContext) {
   languages.registerCodeActionsProvider(
@@ -44,8 +47,8 @@ export function activate(context: ExtensionContext) {
     convertConsumerToConsumerStatefulWidget
   );
   commands.registerCommand(
-    convertConsumerStatefulToStatefulCommand,
-    convertConsumerStatefulToStateful
+    convertConsumerStatefulToConsumerCommand,
+    convertConsumerStatefulToConsumer
   );
 }
 

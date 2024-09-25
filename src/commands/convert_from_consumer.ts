@@ -7,7 +7,7 @@ import {
 } from "vscode";
 import { indexFrom } from "../functions/index_from";
 import { insertImportStatement } from "../functions/insert_import_statement";
-import { replaceLine } from "../functions/replace_lin";
+import { replaceLine } from "../functions/replace_line";
 
 export const convertConsumerToStatelessCommand =
   "extension.convertConsumerToStateless";
