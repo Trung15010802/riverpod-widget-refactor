@@ -16,6 +16,7 @@ import {
   convertConsumerToStateless,
   convertConsumerToStatelessCommand,
 } from "./commands/convert_from_consumer";
+import { convertConsumerStatefulToStateful, convertConsumerStatefulToStatefulCommand } from "./commands/convert_from_consumer_stateful";
 
 export function activate(context: ExtensionContext) {
   languages.registerCodeActionsProvider(
@@ -41,6 +42,10 @@ export function activate(context: ExtensionContext) {
   commands.registerCommand(
     convertConsumerToConsumerStatefulWidgetCommand,
     convertConsumerToConsumerStatefulWidget
+  );
+  commands.registerCommand(
+    convertConsumerStatefulToStatefulCommand,
+    convertConsumerStatefulToStateful
   );
 }
 
