@@ -12,7 +12,8 @@
   "activationEvents": [
     "onLanguage:dart"
   ],
-  "main": "./out/extension.js",
+  "main": "./extension.ts",
+  "icon": "./riverpod_logo.png",
   "contributes": {},
   "scripts": {
     "vscode:prepublish": "npm run compile",
