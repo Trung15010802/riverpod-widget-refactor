@@ -3,7 +3,7 @@
   "displayName": "Riverpod Widget Refactor",
   "description": "Riverpod widget refactor",
   "publisher": "QuangTrung",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.93.0"
   },

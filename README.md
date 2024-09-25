@@ -3,7 +3,7 @@
 ---
 
 flutter riverpod extension is an extension that offers flutter_riverpod related code actions and snippets to increase productivity and make development easier.
-
+![alt text](image.png)
 ![](./showcase.gif)
 
 ## Code Actions
