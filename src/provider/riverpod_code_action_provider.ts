@@ -83,7 +83,7 @@ class RiverpodCodeActionProvider implements CodeActionProvider {
         );
       }
 
-      if (!isStatelessWidget) {
+      if (isConsumerWidget) {
         registerCodeAction(
           ACTION_TITLES.toStateless,
           convertConsumerToStatelessCommand,
@@ -91,9 +91,6 @@ class RiverpodCodeActionProvider implements CodeActionProvider {
           range,
           actions
         );
-      }
-      
-      if (isConsumerWidget) {
         registerCodeAction(
           ACTION_TITLES.toConsumerState,
           convertConsumerToConsumerStatefulWidgetCommand,
