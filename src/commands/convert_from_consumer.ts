@@ -165,3 +165,89 @@ export function convertConsumerToConsumerStatefulWidget(
 
   workspace.applyEdit(edit);
 }
+
+export const convertConsumerToStatefulWidgetCommand =
+  "extension.convertConsumerToStatefulWidget";
+export function convertConsumerToStatefulWidget(
+  document: TextDocument,
+  range: Range
+) {
+  const documentTextArray = document.getText().split(/\n|\r\n/g);
+
+  const classDefinitionRegex = new RegExp(/class\s(\w+)\sextends\s(\w+)/);
+  const widgetClassDefinitionLineNumber = range.start.line;
+  const widgetClassDefinitionLineText =
+    documentTextArray[widgetClassDefinitionLineNumber];
+  const widgetClassDefinitionLineRange = new Range(
+    new Position(widgetClassDefinitionLineNumber, 0),
+    new Position(
+      widgetClassDefinitionLineNumber,
+      widgetClassDefinitionLineText.length
+    )
+  );
+
+  const widgetClassDefinitionLineMatch = widgetClassDefinitionLineText.match(
+    classDefinitionRegex
+  ) as RegExpMatchArray;
+
+  const className = widgetClassDefinitionLineMatch[1];
+
+  const statefulWidgetLineText = `class ${className} extends StatefulWidget {`;
+
+  const createStateLineText = `  @override\n  State<${className}> createState() => _${className}State();`;
+
+  const buildMethodRegex = new RegExp(/Widget\s+build\((.*?)\)/);
+  const buildMethodLineNumber = indexFrom(
+    documentTextArray,
+    buildMethodRegex,
+    widgetClassDefinitionLineNumber
+  );
+  const buildMethodLineText = documentTextArray[buildMethodLineNumber];
+
+  const consumerWidgetBuildMethodLineText = buildMethodLineText.replace(
+    buildMethodRegex,
+    "Widget build(BuildContext context)"
+  );
+
+  const edit = new WorkspaceEdit();
+  const stateClassLineText = `}\nclass _${className}State extends State<${className}> {`;
+
+  const buildMethodLineRange = new Range(
+    new Position(buildMethodLineNumber, 0),
+    new Position(buildMethodLineNumber, buildMethodLineText.length)
+  );
+  const insertCreateStatePosition = new Position(buildMethodLineNumber - 1, 0);
+  edit.insert(
+    document.uri,
+    insertCreateStatePosition,
+    createStateLineText + "\n"
+  );
+  const insertStateClassPosition = new Position(buildMethodLineNumber - 1, 0);
+  edit.insert(
+    document.uri,
+    insertStateClassPosition,
+    stateClassLineText + "\n"
+  );
+  replaceLine(
+    edit,
+    document,
+    buildMethodLineRange,
+    consumerWidgetBuildMethodLineText
+  );
+
+  replaceLine(
+    edit,
+    document,
+    widgetClassDefinitionLineRange,
+    statefulWidgetLineText
+  );
+
+  insertImportStatement(
+    edit,
+    document,
+    documentTextArray,
+    "import 'package:flutter_riverpod/flutter_riverpod.dart';"
+  );
+
+  workspace.applyEdit(edit);
+}

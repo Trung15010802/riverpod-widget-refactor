@@ -5,16 +5,22 @@ import {
   convertStatelessToConsumerStatefulWidgetCommand,
   convertStatelessToConsumerWidget,
   convertStatelessToConsumerWidgetCommand,
+  convertStatelessToStatefulWidget,
+  convertStatelessToStatefulWidgetCommand,
 } from "./commands/convert_from_stateless";
 import {
   convertStatefulToConsumer,
   convertStatefulToConsumerCommand,
   convertStatefulToConsumerStateful,
   convertStatefulToConsumerStatefulCommand,
+  convertStatefulToStateless,
+  convertStatefulToStatelessCommand,
 } from "./commands/convert_from_stateful";
 import {
   convertConsumerToConsumerStatefulWidget,
   convertConsumerToConsumerStatefulWidgetCommand,
+  convertConsumerToStatefulWidget,
+  convertConsumerToStatefulWidgetCommand,
   convertConsumerToStateless,
   convertConsumerToStatelessCommand,
 } from "./commands/convert_from_consumer";
@@ -67,6 +73,18 @@ export function activate(context: ExtensionContext) {
   commands.registerCommand(
     convertStatefulToConsumerCommand,
     convertStatefulToConsumer
+  );
+  commands.registerCommand(
+    convertStatefulToStatelessCommand,
+    convertStatefulToStateless
+  );
+  commands.registerCommand(
+    convertStatelessToStatefulWidgetCommand,
+    convertStatelessToStatefulWidget
+  );
+  commands.registerCommand(
+    convertConsumerToStatefulWidgetCommand,
+    convertConsumerToStatefulWidget
   );
 }
 
