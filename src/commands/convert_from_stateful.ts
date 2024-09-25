@@ -71,14 +71,6 @@ export function convertStatefulToConsumerStateful(
 
   const edit = new WorkspaceEdit();
 
-  // Insert the required import statement for Riverpod
-  insertImportStatement(
-    edit,
-    document,
-    documentTextArray,
-    "import 'package:flutter_riverpod/flutter_riverpod.dart';"
-  );
-
   // Replace the StatefulWidget class with ConsumerStatefulWidget
   const classWidgetRange = new Range(
     new Position(startingClassDefinitionLineNumber, 0),
@@ -114,6 +106,13 @@ export function convertStatefulToConsumerStateful(
   );
   replaceLine(edit, document, stateClassRange, consumerStateLineText);
 
+  // Insert the required import statement for Riverpod
+  insertImportStatement(
+    edit,
+    document,
+    documentTextArray,
+    "import 'package:flutter_riverpod/flutter_riverpod.dart';"
+  );
   // Apply the changes to the document
   workspace.applyEdit(edit);
 }

@@ -108,7 +108,7 @@ export function convertStatelessToConsumerStatefulWidget(
   const consumerStatefulWidgetLineText = `class ${className} extends ConsumerStatefulWidget {`;
 
   // Thêm phương thức createState sau dòng class
-  const createStateLineText = `@override\nConsumerState<${className}> createState() => _${className}State();`;
+  const createStateLineText = `  @override\n  ConsumerState<${className}> createState() => _${className}State();`;
 
   // Tìm vị trí dòng đầu tiên của phương thức build
   const buildMethodRegex = new RegExp(/Widget\s+build\((.*?)\)/);

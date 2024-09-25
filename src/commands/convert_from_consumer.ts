@@ -108,7 +108,7 @@ export function convertConsumerToConsumerStatefulWidget(
 
   const consumerStatefulWidgetLineText = `class ${className} extends ConsumerStatefulWidget {`;
 
-  const createStateLineText = `@override\nConsumerState<${className}> createState() => _${className}State();`;
+  const createStateLineText = `  @override\n  ConsumerState<${className}> createState() => _${className}State();`;
 
   const buildMethodRegex = new RegExp(/Widget\s+build\((.*?)\)/);
   const buildMethodLineNumber = indexFrom(
