@@ -13,7 +13,25 @@ import {
   convertStatelessToConsumerWidgetCommand,
 } from "../commands/convert_from_stateless";
 import { convertStatefulToConsumerStatefulCommand } from "../commands/convert_from_stateful";
-import { convertConsumerToStatelessCommand } from "../commands/convert_from_consumer";
+import {
+  convertConsumerToConsumerStatefulWidgetCommand,
+  convertConsumerToStatelessCommand,
+} from "../commands/convert_from_consumer";
+
+const ACTION_TITLES = {
+  toStateful: "Convert to StatefulWidget",
+  toStateless: "Convert to StatelessWidget",
+  toConsumer: "Convert to ConsumerWidget",
+  toConsumerState: "Convert to ConsumerStatefulWidget",
+};
+
+const REGEX_PATTERNS = {
+  StatelessWidget: /class\s\w+\sextends\sStatelessWidget/,
+  StatefulWidget: /class\s\w+\sextends\sStatefulWidget/,
+  ConsumerWidget: /class\s\w+\sextends\sConsumerWidget/,
+  ConsumerStatefulWidget: /class\s\w+\sextends\sConsumerStatefulWidget/,
+  ClassDefinition: /class\s\w+\sextends\s\w+/,
+};
 
 class RiverpodCodeActionProvider implements CodeActionProvider {
   provideCodeActions(
@@ -21,79 +39,69 @@ class RiverpodCodeActionProvider implements CodeActionProvider {
     range: Range | Selection
   ): ProviderResult<(CodeAction | Command)[]> {
     const actions: CodeAction[] = [];
-
     const documentTextArray = document.getText().split(/\r?\n/g);
-    const StatelessWidget = new RegExp(/class\s\w+\sextends\sStatelessWidget/);
-    const StatefulWidget = new RegExp(/class\s\w+\sextends\sStatefulWidget/);
+    const selectedLineText = documentTextArray[range.start.line];
 
-    const isSelectedLineStatelessWidget = StatelessWidget.test(
-      documentTextArray[range.start.line]
-    );
-    const isSelectedLineStatefulWidget = StatefulWidget.test(
-      documentTextArray[range.start.line]
-    );
-    const consumerWidgetRegex = new RegExp(
-      /class\s\w+\sextends\sConsumerWidget/
-    );
-    const consumerStatefulWidgetRegex = new RegExp(
-      /class\s\w+\sextends\sConsumerStatefulWidget/
-    );
-    const classDefinitionRegex = new RegExp(/class\s\w+\sextends\s\w+/);
+    // Determine widget types
+    const isClassDefinition =
+      REGEX_PATTERNS.ClassDefinition.test(selectedLineText);
+    const isStatelessWidget =
+      REGEX_PATTERNS.StatelessWidget.test(selectedLineText);
+    const isStatefulWidget =
+      REGEX_PATTERNS.StatefulWidget.test(selectedLineText);
+    const isConsumerWidget =
+      REGEX_PATTERNS.ConsumerWidget.test(selectedLineText);
+    const isConsumerStatefulWidget =
+      REGEX_PATTERNS.ConsumerStatefulWidget.test(selectedLineText);
 
-    const isSelectedLineClassDefinition = classDefinitionRegex.test(
-      documentTextArray[range.start.line]
-    );
-    const isSelectedLineConsumerWidget = consumerWidgetRegex.test(
-      documentTextArray[range.start.line]
-    );
-    const isSelectedLineConsumerStatefulWidget =
-      consumerStatefulWidgetRegex.test(documentTextArray[range.start.line]);
-
-    if (isSelectedLineClassDefinition && !isSelectedLineConsumerWidget) {
-      if (isSelectedLineStatelessWidget) {
+    if (isClassDefinition) {
+      if (isStatelessWidget) {
         registerCodeAction(
-          "Convert to ConsumerWidget",
+          ACTION_TITLES.toConsumer,
           convertStatelessToConsumerWidgetCommand,
           document,
           range,
           actions
         );
-      }
-      if (isSelectedLineStatefulWidget) {
-        console.log("Selected line is a StatefulWidget");
 
         registerCodeAction(
-          "Convert to ConsumerStatefulWidget",
+          ACTION_TITLES.toConsumerState,
+          convertStatelessToConsumerStatefulWidgetCommand,
+          document,
+          range,
+          actions
+        );
+      }
+
+      if (isStatefulWidget) {
+        registerCodeAction(
+          ACTION_TITLES.toConsumerState,
           convertStatefulToConsumerStatefulCommand,
           document,
           range,
           actions
         );
       }
-    }
 
-    if (
-      isSelectedLineClassDefinition &&
-      !isSelectedLineConsumerStatefulWidget &&
-      isSelectedLineStatelessWidget
-    ) {
-      registerCodeAction(
-        "Convert to ConsumerStatefulWidget",
-        convertStatelessToConsumerStatefulWidgetCommand,
-        document,
-        range,
-        actions
-      );
-    }
-
-    if (isSelectedLineClassDefinition && !isSelectedLineStatelessWidget) {
-      registerCodeAction(
-        "Convert to StatelessWidget",
-        convertConsumerToStatelessCommand,
-        document,
-        range,
-        actions
-      );
+      if (!isStatelessWidget) {
+        registerCodeAction(
+          ACTION_TITLES.toStateless,
+          convertConsumerToStatelessCommand,
+          document,
+          range,
+          actions
+        );
+      }
+      
+      if (isConsumerWidget) {
+        registerCodeAction(
+          ACTION_TITLES.toConsumerState,
+          convertConsumerToConsumerStatefulWidgetCommand,
+          document,
+          range,
+          actions
+        );
+      }
     }
 
     return actions;

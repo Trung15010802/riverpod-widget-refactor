@@ -11,6 +11,8 @@ import {
   convertStatefulToConsumerStatefulCommand,
 } from "./commands/convert_from_stateful";
 import {
+  convertConsumerToConsumerStatefulWidget,
+  convertConsumerToConsumerStatefulWidgetCommand,
   convertConsumerToStateless,
   convertConsumerToStatelessCommand,
 } from "./commands/convert_from_consumer";
@@ -35,6 +37,10 @@ export function activate(context: ExtensionContext) {
   commands.registerCommand(
     convertConsumerToStatelessCommand,
     convertConsumerToStateless
+  );
+  commands.registerCommand(
+    convertConsumerToConsumerStatefulWidgetCommand,
+    convertConsumerToConsumerStatefulWidget
   );
 }
 

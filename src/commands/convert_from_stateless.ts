@@ -117,16 +117,23 @@ export function convertStatelessToConsumerStatefulWidget(
     buildMethodRegex,
     widgetClassDefinitionLineNumber
   );
-  const stateClassLineText = `}class _${className}State extends ConsumerState<${className}> {`;
+  const stateClassLineText = `}\nclass _${className}State extends ConsumerState<${className}> {`;
 
   const edit = new WorkspaceEdit();
+  // Thêm phương thức createState sau dòng class
+  // const classEndLine = widgetClassDefinitionLineNumber + 1;
 
-  // Thêm import statement cho Riverpod nếu chưa có
-  insertImportStatement(
-    edit,
-    document,
-    documentTextArray,
-    "import 'package:flutter_riverpod/flutter_riverpod.dart';"
+  const insertCreateStatePosition = new Position(buildMethodLineNumber - 1, 0);
+  edit.insert(
+    document.uri,
+    insertCreateStatePosition,
+    createStateLineText + "\n"
+  );
+  const insertStateClassPosition = new Position(buildMethodLineNumber - 1, 0);
+  edit.insert(
+    document.uri,
+    insertStateClassPosition,
+    stateClassLineText + "\n"
   );
 
   // Thay thế dòng class cũ bằng dòng class mới với ConsumerStatefulWidget
@@ -137,22 +144,11 @@ export function convertStatelessToConsumerStatefulWidget(
     consumerStatefulWidgetLineText
   );
 
-  // Thêm phương thức createState sau dòng class
-  const classEndLine = widgetClassDefinitionLineNumber + 1;
-  const insertCreateStatePosition = new Position(classEndLine, 0);
-  edit.insert(
-    document.uri,
-    insertCreateStatePosition,
-    createStateLineText + "\n"
+  insertImportStatement(
+    edit,
+    document,
+    documentTextArray,
+    "import 'package:flutter_riverpod/flutter_riverpod.dart';"
   );
-
-  // Thêm class state mới
-  const insertStateClassPosition = new Position(buildMethodLineNumber - 1, 0);
-  edit.insert(
-    document.uri,
-    insertStateClassPosition,
-    stateClassLineText + "\n"
-  );
-
   workspace.applyEdit(edit);
 }
