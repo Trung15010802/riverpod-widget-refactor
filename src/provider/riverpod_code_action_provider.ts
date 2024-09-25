@@ -13,6 +13,7 @@ import {
   convertStatelessToConsumerWidgetCommand,
 } from "../commands/convert_from_stateless";
 import { convertStatefulToConsumerStatefulCommand } from "../commands/convert_from_stateful";
+import { convertConsumerToStatelessCommand } from "../commands/convert_from_consumer";
 
 class RiverpodCodeActionProvider implements CodeActionProvider {
   provideCodeActions(
@@ -79,6 +80,16 @@ class RiverpodCodeActionProvider implements CodeActionProvider {
       registerCodeAction(
         "Convert to ConsumerStatefulWidget",
         convertStatelessToConsumerStatefulWidgetCommand,
+        document,
+        range,
+        actions
+      );
+    }
+
+    if (isSelectedLineClassDefinition && !isSelectedLineStatelessWidget) {
+      registerCodeAction(
+        "Convert to StatelessWidget",
+        convertConsumerToStatelessCommand,
         document,
         range,
         actions
