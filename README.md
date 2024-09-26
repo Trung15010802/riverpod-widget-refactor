@@ -4,6 +4,7 @@
 
 flutter riverpod extension is an extension that offers flutter_riverpod related code actions and snippets to increase productivity and make development easier.
 ![alt text](image.png)
+![alt text](image-1.png)
 ![](./showcase.gif)
 
 ## Code Actions
@@ -12,6 +13,7 @@ flutter riverpod extension is an extension that offers flutter_riverpod related 
 - Convert to a StatelessWidget
 - Convert to a StatefulWidget
 - Convert to a ConsumerStatefulWidget
+- Wrap with consumer
 
 ## Remarks
 
