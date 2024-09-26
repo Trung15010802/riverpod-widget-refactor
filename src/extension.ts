@@ -32,6 +32,14 @@ import {
   convertConsumerStatefulToStateless,
   convertConsumerStatefulToStatelessCommand,
 } from "./commands/convert_from_consumer_stateful";
+import {
+  removeConsumer,
+  removeConsumerCommand,
+} from "./commands/remove_consumer";
+import {
+  wrapWithConsumer,
+  wrapWithConsumerCommand,
+} from "./commands/wrap_with_consumer";
 
 export function activate(context: ExtensionContext) {
   languages.registerCodeActionsProvider(
@@ -86,6 +94,7 @@ export function activate(context: ExtensionContext) {
     convertConsumerToStatefulWidgetCommand,
     convertConsumerToStatefulWidget
   );
-}
 
-export function deactivate() {}
+  commands.registerCommand(removeConsumerCommand, removeConsumer),
+    commands.registerCommand(wrapWithConsumerCommand, wrapWithConsumer);
+}

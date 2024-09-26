@@ -7,6 +7,7 @@ import {
   Range,
   Selection,
   TextDocument,
+  window,
 } from "vscode";
 import {
   convertStatelessToConsumerStatefulWidgetCommand,
@@ -28,12 +29,20 @@ import {
   convertConsumerStatefulToStatefulCommand,
   convertConsumerStatefulToStatelessCommand,
 } from "../commands/convert_from_consumer_stateful";
+import { getSelectedText } from "../functions/get_selected_text";
+import { wrapWithConsumerCommand } from "../commands/wrap_with_consumer";
+import {
+  removeConsumer,
+  removeConsumerCommand,
+} from "../commands/remove_consumer";
 
 const ACTION_TITLES = {
   toStateful: "Convert to StatefulWidget",
   toStateless: "Convert to StatelessWidget",
   toConsumer: "Convert to ConsumerWidget",
   toConsumerState: "Convert to ConsumerStatefulWidget",
+  wrapWithConsumer: "Wrap with Consumer",
+  removeConsumer: "Remove Consumer",
 };
 
 const REGEX_PATTERNS = {
@@ -43,6 +52,7 @@ const REGEX_PATTERNS = {
   ConsumerStatefulWidget: /class\s\w+\sextends\sConsumerStatefulWidget/,
   ClassDefinition: /class\s\w+\sextends\s\w+/,
 };
+const consumerRegExp = new RegExp("^Consumer*\\(.*\\)", "ms");
 
 class RiverpodCodeActionProvider implements CodeActionProvider {
   provideCodeActions(
@@ -64,6 +74,24 @@ class RiverpodCodeActionProvider implements CodeActionProvider {
       REGEX_PATTERNS.ConsumerWidget.test(selectedLineText);
     const isConsumerStatefulWidget =
       REGEX_PATTERNS.ConsumerStatefulWidget.test(selectedLineText);
+
+    const editor = window.activeTextEditor;
+    if (editor) {
+      const selectedText = editor.document.getText(getSelectedText(editor));
+      if (selectedText !== "" && !isClassDefinition) {
+        const isConsumer = consumerRegExp.test(selectedText);
+
+        registerCodeAction(
+          isConsumer
+            ? ACTION_TITLES.removeConsumer
+            : ACTION_TITLES.wrapWithConsumer,
+          isConsumer ? removeConsumerCommand : wrapWithConsumerCommand,
+          document,
+          range,
+          actions
+        );
+      }
+    }
 
     if (isClassDefinition) {
       if (isStatelessWidget) {
