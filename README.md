@@ -22,10 +22,12 @@ flutter riverpod extension is an extension that offers flutter_riverpod related 
 ## Note
 
 I A Big Thank You! 🎉
-I stolen code from this repo
-https://github.com/yhbsh/Riverpod-Extension-For-VsCode
+I stolen code from those repositoires:
 
-and chatGPT
+- https://github.com/yhbsh/Riverpod-Extension-For-VsCode
+- https://github.com/felangel/bloc
+- https://marketplace.visualstudio.com/items?itemName=GaganYadav.rp-consumer
+- chatGPT
 
 Iam someone who knows nothing about TypeScript and programming extensions for VSCode. I worked on this for 2 days, so this repository is not perfect.
 
