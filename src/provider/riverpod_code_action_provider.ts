@@ -75,25 +75,24 @@ class RiverpodCodeActionProvider implements CodeActionProvider {
     const isConsumerStatefulWidget =
       REGEX_PATTERNS.ConsumerStatefulWidget.test(selectedLineText);
 
-    const editor = window.activeTextEditor;
-    if (editor) {
-      const selectedText = editor.document.getText(getSelectedText(editor));
-      if (selectedText !== "" && !isClassDefinition) {
-        const isConsumer = consumerRegExp.test(selectedText);
-
-        registerCodeAction(
-          isConsumer
-            ? ACTION_TITLES.removeConsumer
-            : ACTION_TITLES.wrapWithConsumer,
-          isConsumer ? removeConsumerCommand : wrapWithConsumerCommand,
-          document,
-          range,
-          actions
-        );
-      }
-    }
-
     if (isClassDefinition) {
+      const editor = window.activeTextEditor;
+      if (editor) {
+        const selectedText = editor.document.getText(getSelectedText(editor));
+        if (selectedText !== "" && !isClassDefinition) {
+          const isConsumer = consumerRegExp.test(selectedText);
+
+          registerCodeAction(
+            isConsumer
+              ? ACTION_TITLES.removeConsumer
+              : ACTION_TITLES.wrapWithConsumer,
+            isConsumer ? removeConsumerCommand : wrapWithConsumerCommand,
+            document,
+            range,
+            actions
+          );
+        }
+      }
       if (isStatelessWidget) {
         registerCodeAction(
           ACTION_TITLES.toConsumer,
