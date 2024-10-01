@@ -1,8 +1,8 @@
-# Flutter Riverpod Extension
-
+# Riverpod Widget Refactor
+[Link to install](https://marketplace.visualstudio.com/items?itemName=QuangTrung.riverpod-widget-refactor)
 ---
 
-flutter riverpod extension is an extension that offers flutter_riverpod related code actions and snippets to increase productivity and make development easier.
+Riverpod Widget Refactor is an extension that offers flutter_riverpod related code actions and snippets to increase productivity and make development easier.
 ![alt text](image.png)
 ![alt text](image-1.png)
 ![](./showcase.gif)
